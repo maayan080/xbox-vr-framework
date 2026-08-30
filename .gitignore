@@ -1,0 +1,35 @@
+# Visual Studio / MSBuild
+[Bb]in/
+[Oo]bj/
+x64/
+Debug/
+Release/
+AppPackages/
+BundleArtifacts/
+*.appxsym
+*.appxupload
+*.ipdb
+*.iobj
+*.pdb
+*.tlog
+.vs/
+*.user
+
+# Generated shader headers - rebuilt by fxc during the build
+samples/**/Shaders/Generated/
+
+# Gradle / Android
+.gradle/
+client/android/**/build/
+client/android/local.properties
+*.iml
+.cxx/
+
+# Signing material. Throwaway dev certs, but never commit private keys.
+*.pfx
+*.snk
+build/
+
+# Logs and captured output
+*.log
+*.h264

@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'dev.xboxvr.client'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "dev.xboxvr.client"
+        // Quest 2/3 run Android 10+; 26 keeps an ordinary phone in range for testing,
+        // which is the whole point of this step existing before the VR app.
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    sourceSets {
+        // Protocol, receive and decode are shared with the VR app. One copy, so a fix in
+        // the reassembly logic cannot be applied to one client and forgotten in the other.
+        main.java.srcDirs += '../shared/java'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // Signed with the debug key: this is a sideloaded development build, and a
+            // release key would only add friction with nothing to protect yet.
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        // Lint fails outright on this project path, and it is not worth gating a
+        // sideloaded development build on a reporting step.
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}

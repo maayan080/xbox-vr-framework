@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- A desktop console executable, deliberately not a UWP package.
+     This is meant to be run on the build machine rather than deployed, and packaging it
+     would drag in signing and sideloading policy that have nothing to do with what it
+     tests. -->
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2B7C4D19-5E60-4A83-B1D2-3F5A6C7E8091}</ProjectGuid>
+    <RootNamespace>XrHarness</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\..\framework\include;$(MSBuildThisFileDirectory)..\..\third_party\openxr\include;$(WindowsSdkDir)Include\$(WindowsTargetPlatformVersion)\cppwinrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;ws2_32.lib;mfplat.lib;mfuuid.lib;mf.lib;ole32.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\..\framework\src\openxr\XrApi.cpp" />
+    <ClCompile Include="..\..\framework\src\openxr\XrRuntime.cpp" />
+    <ClCompile Include="..\..\framework\src\Log.cpp" />
+    <ClCompile Include="..\..\framework\src\Check.cpp" />
+    <ClCompile Include="..\..\framework\src\Constraints.cpp" />
+    <ClCompile Include="..\..\framework\src\NV12Converter.cpp" />
+    <ClCompile Include="..\..\framework\src\EncodedFrameSink.cpp" />
+    <ClCompile Include="..\..\framework\src\VideoEncoder.cpp" />
+    <ClCompile Include="..\..\framework\src\UdpFrameSink.cpp" />
+    <ClCompile Include="..\..\framework\src\ClientLink.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  IgnorableNamespaces="uap mp">
+
+  <Identity Name="XboxVR.StereoEncode" Publisher="CN=XboxVRDev" Version="4.2.0.0" />
+  <mp:PhoneIdentity PhoneProductId="8c3d2e51-ab2f-4e4b-9c88-6d0e1f3a2b02" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+
+  <Properties>
+    <DisplayName>Xbox VR Stereo Encode Test</DisplayName>
+    <PublisherDisplayName>XboxVRDev</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-US" />
+  </Resources>
+
+  <Applications>
+    <Application Id="App" Executable="StereoEncode.exe" EntryPoint="StereoEncode.App">
+      <uap:VisualElements
+        DisplayName="Xbox VR Stereo Encode Test"
+        Description="Renders stereo frames, encodes them to H.264, and measures sustained throughput"
+        BackgroundColor="#0D0F17"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
+  </Capabilities>
+</Package>
+
+
+
+
+
+
+

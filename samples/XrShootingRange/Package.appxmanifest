@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  IgnorableNamespaces="uap mp">
+
+  <Identity Name="XboxVR.XrShootingRange" Publisher="CN=XboxVRDev" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="9a4e1f62-bc30-4f5c-ad99-7e1f2a4b3c14" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+
+  <Properties>
+    <DisplayName>OpenXR Shooting Range</DisplayName>
+    <PublisherDisplayName>XboxVRDev</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-US" />
+  </Resources>
+
+  <Applications>
+    <Application Id="App" Executable="XrShootingRange.exe" EntryPoint="XrShootingRange.App">
+      <uap:VisualElements
+        DisplayName="OpenXR Shooting Range"
+        Description="A plain OpenXR application, streamed to a Quest by linking the XVR runtime instead of the Khronos loader"
+        BackgroundColor="#0D0F17"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
+  </Capabilities>
+</Package>

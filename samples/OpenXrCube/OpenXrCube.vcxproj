@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9A4E1F62-BC30-4F5C-AD99-7E1F2A4B3C13}</ProjectGuid>
+    <RootNamespace>OpenXrCube</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
+    <AppContainerApplication>true</AppContainerApplication>
+    <ApplicationType>Windows Store</ApplicationType>
+    <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+
+  <PropertyGroup>
+    <AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
+    <AppxBundle>Never</AppxBundle>
+    <AppxAutoIncrementPackageRevision>false</AppxAutoIncrementPackageRevision>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <!-- C++/WinRT, not C++/CX: /ZW drags in vccorlib.h, whose ::Windows is
+           ambiguous against winrt::Windows. -->
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory);$(MSBuildThisFileDirectory)..\..\framework\include;$(MSBuildThisFileDirectory)..\..\third_party\openxr\include;$(WindowsSdkDir)Include\$(WindowsTargetPlatformVersion)\cppwinrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <WarningLevel>Level4</WarningLevel>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;d2d1.lib;ws2_32.lib;dwrite.lib;mfplat.lib;mfuuid.lib;mf.lib;strmiids.lib;windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <!-- Not a WinRT component, so no .winmd exists for packaging to collect. -->
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!-- Shaders are compiled to headers up front rather than loaded at runtime, so there is
+       no file I/O and no shader model surprise on the console. -->
+  <Target Name="CompileShaders" BeforeTargets="ClCompile">
+    <MakeDir Directories="$(MSBuildThisFileDirectory)Shaders\Generated" />
+    <Exec Command="fxc.exe /nologo /T vs_5_0 /E main /Fh &quot;$(MSBuildThisFileDirectory)Shaders\Generated\CubeVS.h&quot; /Vn g_CubeVS &quot;$(MSBuildThisFileDirectory)Shaders\CubeVS.hlsl&quot;" />
+    <Exec Command="fxc.exe /nologo /T ps_5_0 /E main /Fh &quot;$(MSBuildThisFileDirectory)Shaders\Generated\CubePS.h&quot; /Vn g_CubePS &quot;$(MSBuildThisFileDirectory)Shaders\CubePS.hlsl&quot;" />
+  </Target>
+
+  <ItemGroup>
+    <ClCompile Include="App.cpp" />
+    <!-- The OpenXR runtime, in place of openxr_loader. Linking both would be a duplicate
+         symbol error, which is the intended way to find out you have done it. -->
+    <ClCompile Include="..\..\framework\src\openxr\XrApi.cpp" />
+    <ClCompile Include="..\..\framework\src\openxr\XrRuntime.cpp" />
+    <ClCompile Include="..\..\framework\src\Log.cpp" />
+    <ClCompile Include="..\..\framework\src\Check.cpp" />
+    <ClCompile Include="..\..\framework\src\Constraints.cpp" />
+    <ClCompile Include="..\..\framework\src\NV12Converter.cpp" />
+    <ClCompile Include="..\..\framework\src\EncodedFrameSink.cpp" />
+    <ClCompile Include="..\..\framework\src\VideoEncoder.cpp" />
+    <ClCompile Include="..\..\framework\src\UdpFrameSink.cpp" />
+    <ClCompile Include="..\..\framework\src\ClientLink.cpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Image Include="Assets\StoreLogo.png" />
+    <Image Include="Assets\Square150x150Logo.png" />
+    <Image Include="Assets\Square44x44Logo.png" />
+    <Image Include="Assets\SplashScreen.png" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

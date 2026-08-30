@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+
+    <!-- Declares this as a VR application rather than a 2D panel app. Without it the
+         headset runs it in a floating window and never hands over the OpenXR display. -->
+    <uses-feature android:name="android.hardware.vr.headtracking" android:version="1"
+        android:required="true" />
+    <uses-feature android:name="android.software.vr.mode" android:required="false" />
+
+    <application
+        android:label="XVR"
+        android:allowBackup="false"
+        android:usesCleartextTraffic="true"
+        android:hasCode="true">
+
+        <activity
+            android:name="dev.xboxvr.vr.VrActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:excludeFromRecents="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard|navigation|uiMode|density">
+
+            <!-- The loader looks up the native library by name from the manifest. -->
+            <meta-data android:name="android.app.lib_name" android:value="xvrvr" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <!-- Meta's launcher uses this category to list the app in the headset. -->
+                <category android:name="com.oculus.intent.category.VR" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
